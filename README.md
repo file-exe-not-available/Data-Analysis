@@ -63,7 +63,7 @@ Industry Implications:
     Data Analysts use business intelligence tools like Excel and Tableau to communicate insights.
     SAS is declining in demand but still relevant in some analyst and data science roles.
 
-Recommendations for Job Seekers:
+Takeaways:
 
     Aspiring Data Analysts → Learn SQL, Excel, and Tableau.
     Aspiring Data Engineers → Gain expertise in SQL, Python, AWS, Azure, and Spark.
@@ -104,10 +104,114 @@ plt.show()
 
     Power BI, though least in demand, shows gradual growth, hinting at rising adoption.
 
-Takeaway for Job Seekers:
+Takeaways:
 
     Master SQL—it’s essential.
 
     Excel is still useful, but learning Python and BI tools boosts opportunities.
 
     Power BI is on the rise—gaining proficiency may provide a competitive edge.
+
+## 3. How well do jobs and skills pay for top jobs in the field of data?
+
+### Salary Analysis
+![Salary distribution for top 6 jobs](image-3.png)
+
+```python
+sns.boxplot(data=df_US_top_jobs, x='salary_year_avg', y='job_title_short', order = job_order)
+sns.set_theme(style = 'ticks')
+
+plt.title('Salary Distribution of Top 6 Job Titles in the US')
+plt.xlabel('Yearly Salary')
+plt.ylabel('')
+plt.xlim(0,600000)
+ticks_x = plt.FuncFormatter(lambda y, pos: f'${int(y/1000)}K')
+plt.show()
+```
+![Top salaries and in demand jobs](image-2.png)
+```python
+fig, ax = plt.subplots(2, 1)
+
+sns.set_theme(style = 'ticks')
+sns.barplot(data = df_DA_top_pay, x = 'median', y = df_DA_top_pay.index, ax = ax[0], hue = 'median', palette = 'dark:b_r')
+ax[0].set_title('Top 10 Skills for Data Analysts by Salary')
+ax[0].set_xlabel('')
+ax[0].set_ylabel('')
+ax[0].legend().remove()
+ax[0].xaxis.set_major_formatter(ticks_x)
+
+sns.barplot(data = df_DA_skills, x = 'median', y = df_DA_skills.index, ax = ax[1], hue = 'median', palette = 'light:b')
+ax[1].set_title('Top 10 in demand Skills for Data Analysts')
+ax[1].set_xlabel('')
+ax[1].set_ylabel('')
+ax[1].legend().remove()
+ax[1].xaxis.set_major_formatter(ticks_x)
+ax[1].set_xlim(0, 200000)
+
+fig.tight_layout()
+```
+
+### Insights
+
+    Higher salaries: Senior roles (Data Scientist, Data Engineer) earn significantly more, with some exceeding $400K. Data Analysts have the lowest salaries.
+    High-paying skills: Specialized tools like dplyr, solidity, and bitbucket lead to higher salaries.
+    Most in-demand skills: Python, SQL, Excel, and Tableau dominate job postings.
+    Career growth: To move beyond a Data Analyst role, focus on programming, cloud computing, and machine learning.
+
+## 4. What is the most optimal skill to learn for Data Analysts?
+
+### Data Visualization
+![Scatter plot for optimal skills]](image-4.png)
+
+```python
+from adjustText import adjust_text
+
+#df_plot.plot(kind='scatter', x='skill_percent', y='median_salary')
+sns.scatterplot(data = df_plot, x='skill_percent', y='median_salary', hue='technology')
+sns.despine()
+sns.set_style("ticks")
+
+texts = []
+for i in range(len(df_plot)):  
+    texts.append(plt.text(df_plot['skill_percent'].iloc[i], df_plot['median_salary'].iloc[i], df_plot['skills'].iloc[i]))
+
+
+adjust_text(texts, arrowprops=dict(arrowstyle='->', color='red'))
+
+plt.xlabel('Percent of Data Analyst Jobs')
+plt.ylabel('Median Salary')
+plt.title('Optimal Skills for Data Anlaysis Jobs in the US')
+
+from matplotlib.ticker import PercentFormatter
+
+ax = plt.gca()
+ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, pos: f'${int(y/1000)}K'))
+ax.xaxis.set_major_formatter(PercentFormatter(decimals = 2))
+
+plt.show()
+```
+
+### Insights
+
+High-Paying & In-Demand Skills:
+
+    Python and SQL stand out as the most valuable skills, offering both high salaries (~$98K) and strong demand (high job percentage).
+    Tableau and Power BI, key data visualization tools, also provide competitive salaries (~$92K–$90K) with decent job market demand.
+
+Low-Paying but High-Demand Skills:
+
+    Excel has the highest job demand (50%) but offers a relatively lower median salary ($85K).
+    Word and PowerPoint are frequently required but offer minimal salary boosts, making them less impactful for salary growth.
+
+Niche but Lucrative Skills:
+
+
+    Go (programming language) and Oracle (database) appear in the higher salary range (~$96K+), despite lower job demand (~10%).
+    SQL Server is less common than standard SQL but still provides stable salaries (~$83K).
+
+
+Takeaways:
+
+    Prioritize Python, SQL, Tableau, and Power BI for balanced demand and salary.
+    Learning Go, Oracle, or cloud technologies can boost earnings but might limit job opportunities.
+    Excel, PowerPoint, and Word are useful but shouldn’t be the primary focus for maximizing salary.
